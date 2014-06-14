@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SpaceBash" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="./SpaceBash_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="./SpaceBash_r" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:/SDL-1.2.15/include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDLmain -lSDL" />
+			<Add option="-Wl,--allow-multiple-definition" />
+			<Add directory="C:/SDL-1.2.15/lib" />
+		</Linker>
+		<Unit filename="main.cpp" />
+		<Unit filename="src/ArrayStarField.cpp" />
+		<Unit filename="src/ArrayStarField.h" />
+		<Unit filename="src/Asteroid.cpp" />
+		<Unit filename="src/Asteroid.h" />
+		<Unit filename="src/AsteroidField.cpp" />
+		<Unit filename="src/AsteroidField.h" />
+		<Unit filename="src/BufferObject.cpp" />
+		<Unit filename="src/BufferObject.h" />
+		<Unit filename="src/Camera.hpp" />
+		<Unit filename="src/ObjectField.cpp" />
+		<Unit filename="src/ObjectField.h" />
+		<Unit filename="src/Overlay.cpp" />
+		<Unit filename="src/Overlay.h" />
+		<Unit filename="src/PlaneObject.cpp" />
+		<Unit filename="src/PlaneObject.h" />
+		<Unit filename="src/SpaceBash.cpp" />
+		<Unit filename="src/SpaceBash.h" />
+		<Unit filename="src/StarField.cpp" />
+		<Unit filename="src/StarField.h" />
+		<Unit filename="src/Structures.h" />
+		<Unit filename="src/Utilities.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

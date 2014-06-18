@@ -14,6 +14,7 @@ public:
     SDL_Surface * screen;
     SDL_Thread * updateThread;
     BufferObject * screen_buffer;
+    BufferObject * lightingMask;
     Camera * camera;
     std::vector<PlaneObject *> planes;
     bool bRunning;

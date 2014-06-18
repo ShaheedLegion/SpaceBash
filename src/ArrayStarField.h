@@ -15,7 +15,7 @@ protected:
     int * _ty;
 
 public:
-    ArrayStarField(BufferObject * surf, Camera * cam);
+    ArrayStarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
     ~ArrayStarField();
 
     void Update();

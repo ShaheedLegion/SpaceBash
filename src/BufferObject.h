@@ -9,7 +9,7 @@ class BufferObject
 protected:
     int w;
     int h;
-    spacebash::Color * screen_buffer;
+    spacebash_s::Color * screen_buffer;
     float * depth_buffer;
 
 public:
@@ -22,7 +22,7 @@ public:
     void Write(int x, int y, float z, Uint32 color);
     int GetWidth();
     int GetHeight();
-    spacebash::Color * GetBuffer();
+    spacebash_s::Color * GetBuffer();
 };
 
 #endif // BUFFEROBJECT_H_INCLUDED

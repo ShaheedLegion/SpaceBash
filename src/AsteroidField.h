@@ -11,7 +11,7 @@ protected:
     Asteroid * asteroids;
 
 public:
-    AsteroidField(BufferObject * surf, Camera * cam);
+    AsteroidField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
     ~AsteroidField();
 
     void Update();

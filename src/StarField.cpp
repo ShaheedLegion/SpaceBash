@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include "StarField.h"
 
-StarField::StarField(BufferObject * surf, Camera * cam) : PlaneObject(surf, cam)
+StarField::StarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt)
 {
     nstars = cam->GetHeight() * 6;
-    stars = new spacebash::Point[nstars]; //should be less, but this is fine for testing
+    stars = new spacebash_s::Point[nstars]; //should be less, but this is fine for testing
 
     for (int i = 0; i < nstars; ++i)
     {
@@ -28,7 +28,8 @@ void StarField::Update()
     bool bPushBack = false;
     bool bSkip = false;
 
-    spacebash::Point * star;
+    spacebash_s::Point * star;
+    Uint32 col = spacebash_s::GetCol(pixel_fmt, 99, 99, 99);
     for (int i = 0; i < nstars; ++i)
     {
         star = &stars[i];
@@ -54,6 +55,6 @@ void StarField::Update()
         }
         if (bSkip) continue;
 
-        surface->Write(tempx, tempy, star->z, 0x66996699);
+        surface->Write(tempx, tempy, star->z, col);
     }
 }

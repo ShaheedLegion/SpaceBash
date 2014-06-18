@@ -8,16 +8,17 @@
 
 class Asteroid
 {
+public:
+    spacebash_s::Point position;  //the location of this asteroid
 protected:
-    spacebash::Point position;  //the location of this asteroid
     int npoints;
-    spacebash::Point * vertices;
+    spacebash_s::Point * vertices;
     float particle_speed;
 public:
     Asteroid();
     ~Asteroid();
-    void InitParticle(spacebash::Point * pt);
-    void Render(Camera * cam, BufferObject * surf);
+    void InitParticle(spacebash_s::Point * pt);
+    void Render(Camera * cam, BufferObject * surf, SDL_PixelFormat * fmt);
 };
 
 #endif // ASTEROID_H_INCLUDED

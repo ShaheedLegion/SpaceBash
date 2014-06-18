@@ -8,15 +8,15 @@ class Overlay : public PlaneObject
 {
 protected:
     int nOculusPoints;
-    spacebash::Point * oculus;
+    spacebash_s::Point * oculus;
 
     int nGyroPoints;
-    spacebash::Point * gyro;
+    spacebash_s::Point * gyro;
 
-    void SetPoint(spacebash::Point * pt, float x, float y);
+    void SetPoint(spacebash_s::Point * pt, float x, float y);
 
 public:
-    Overlay(BufferObject * surf, Camera * cam);
+    Overlay(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
     ~Overlay();
 
     void Update();

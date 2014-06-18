@@ -2,7 +2,7 @@
 
 BufferObject::BufferObject(int width, int height) : w(width), h(height)
 {
-    screen_buffer = new spacebash::Color[w * h];
+    screen_buffer = new spacebash_s::Color[w * h];
     depth_buffer = new float[w * h];
     Clear();
 }
@@ -15,8 +15,9 @@ BufferObject::~BufferObject()
 void BufferObject::Clear()
 {
     int len = GetWidth() * GetHeight();
-    memset(&depth_buffer[0], -500.0f, len * sizeof(float));
-    memset(&screen_buffer[0], 0xff000000, len * sizeof(Uint32));
+    for (int i = 0; i < len; ++i)
+        depth_buffer[i] = -500.0f;
+    memset(&screen_buffer[0], 0, len * sizeof(Uint32));
 }
 
 /*
@@ -28,8 +29,8 @@ void BufferObject::Blur()
 
     int w = GetWidth();
     int h = GetHeight();
-    spacebash::Color pc, pp, pn;
-    spacebash::Color * ptc, *ptt, *ptb;
+    spacebash_s::Color pc, pp, pn;
+    spacebash_s::Color * ptc, *ptt, *ptb;
     for (int y = 1; y < h-1; ++y)
     {
         ptt = &screen_buffer[0 + ((y - 1) * w)];
@@ -37,9 +38,9 @@ void BufferObject::Blur()
         ptb = &screen_buffer[0 + ((y + 1) * w)];
         for (int x = 0; x < w; ++x)
         {
-            pp = *(spacebash::Color*)(ptt);
-            pc = *(spacebash::Color*)(ptc);
-            pn = *(spacebash::Color*)(ptb);
+            pp = *(spacebash_s::Color*)(ptt);
+            pc = *(spacebash_s::Color*)(ptc);
+            pn = *(spacebash_s::Color*)(ptb);
 
             ptc->r = (char)(((int)pp.r + pn.r) >> 1);
             ptc->g = (char)(((int)pp.g + pn.g) >> 1);
@@ -54,9 +55,9 @@ void BufferObject::Blur()
         ptc = &screen_buffer[1 + (y * w)];
         for (int x = 0; x < w - 2; ++x)
         {
-            pp = *(spacebash::Color*)(--ptc);
+            pp = *(spacebash_s::Color*)(--ptc);
             ++ptc;
-            pn = *(spacebash::Color*)(++ptc);
+            pn = *(spacebash_s::Color*)(++ptc);
 
             ptc->r = (char)(((int)pp.r + pn.r) >> 1);
             ptc->g = (char)(((int)pp.g + pn.g) >> 1);
@@ -75,12 +76,12 @@ void BufferObject::Write(int x, int y, float z, Uint32 color)
     if (y > h) return;
     if (y == h) y = h - 1;
 
-    spacebash::Color * pt = &screen_buffer[x + (y * w)];
+    spacebash_s::Color * pt = &screen_buffer[x + (y * w)];
     float * cz = &depth_buffer[x + (y * w)];
     if (*cz > z) return;  //depth test
 
     *cz = z;
-    *pt = *(spacebash::Color*)&(color);
+    *pt = *(spacebash_s::Color*)&(color);
 }
 
 int BufferObject::GetWidth()
@@ -91,7 +92,7 @@ int BufferObject::GetHeight()
 {
     return h;
 }
-spacebash::Color * BufferObject::GetBuffer()
+spacebash_s::Color * BufferObject::GetBuffer()
 {
     return &screen_buffer[0];
 }

@@ -9,10 +9,10 @@ class StarField : public PlaneObject
 protected:
     int nstars;
     float speed;
-    spacebash::Point * stars;
+    spacebash_s::Point * stars;
 
 public:
-    StarField(BufferObject * surf, Camera * cam);
+    StarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
     ~StarField();
 
     void Update();

@@ -11,12 +11,12 @@ protected:
     int nCubes;
     int theta;
     float cSize;
-    spacebash::Cube * cubes;
-    void PositionCube(spacebash::Cube * c, float x, float y, float z, float dim);
-    void RotateVertex(spacebash::Point * v, spacebash::Point * c);
+    spacebash_s::Cube * cubes;
+    void PositionCube(spacebash_s::Cube * c, float x, float y, float z, float dim);
+    void RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c);
 
 public:
-    ObjectField(BufferObject * surf, Camera * cam);
+    ObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
     ~ObjectField();
 
     void Update();

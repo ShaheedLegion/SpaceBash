@@ -8,10 +8,11 @@ class PlaneObject
 protected:
     BufferObject * surface;
     Camera * camera;
+    SDL_PixelFormat * pixel_fmt;
     int w;
     int h;
 public:
-    PlaneObject(BufferObject * obj, Camera * cam);
+    PlaneObject(BufferObject * obj, Camera * cam, SDL_PixelFormat * fmt);
     virtual ~PlaneObject();
 
     virtual void Update();

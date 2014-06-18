@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "ArrayStarField.h"
 
-ArrayStarField::ArrayStarField(BufferObject * surf, Camera * cam) : PlaneObject(surf, cam)
+ArrayStarField::ArrayStarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt)
 {
     nstars = cam->GetHeight() * 6;
     _x = new float[nstars];

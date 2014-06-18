@@ -1,27 +1,25 @@
-#include <stdlib.h>
-#include "ObjectField.h"
+#include "AsteroidObjectField.h"
 
-ObjectField::ObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt), nCubes(cam->GetHeight()), theta(10)
+AsteroidObjectField::AsteroidObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) :
+    PlaneObject(surf, cam, fmt), nAsteroidObjects(cam->GetHeight() / 2), theta(20)
 {
-    cSize = 0.5f;  //actually half the size, but who's counting?
-    float x, y, z;
-    cubes = new spacebash_s::Cube[nCubes];
-    for (int i = 0; i < nCubes; ++i)
-    {
-        x = (float)(rand() % 100 - 50);
-		y = (float)(rand() % 100 - 50);
-		z = (float)(rand() % 100 + 1);
-        PositionCube(&cubes[i], x, y, z, cSize);
-    }
+    cSize = 0.35f;  //actually half the size, but who's counting?
+    cubes = new spacebash_s::Cube[nAsteroidObjects];
+    asteroids = new Asteroid[nAsteroidObjects];
 
+    for (int i = 0; i < nAsteroidObjects; ++i)
+    {
+        PositionCube(&cubes[i], asteroids[i].position.x, asteroids[i].position.y, asteroids[i].position.z, cSize);
+    }
 }
 
-ObjectField::~ObjectField()
+AsteroidObjectField::~AsteroidObjectField()
 {
+    delete [] asteroids;
     delete [] cubes;
 }
 
-void ObjectField::PositionCube(spacebash_s::Cube * c, float cx, float cy, float cz, float dim)
+void AsteroidObjectField::PositionCube(spacebash_s::Cube * c, float cx, float cy, float cz, float dim)
 {
     c->vertices[0].x = cx - dim;
     c->vertices[0].y = cy - dim;
@@ -60,22 +58,27 @@ void ObjectField::PositionCube(spacebash_s::Cube * c, float cx, float cy, float 
     c->vertices[8].z = cz;
 }
 
-void ObjectField::RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c)
+void AsteroidObjectField::RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c)
 {
     camera->RotateArbX(v->x, &v->y, &v->z, c->y, c->z, theta);
     camera->RotateArbY(&v->x, v->y, &v->z, c->x, c->z, theta / 4);
     camera->RotateArbZ(&v->x, &v->y, v->z, c->x, c->y, theta / 2);
 }
 
-void ObjectField::Update()
+void AsteroidObjectField::Update()
 {
     Uint32 color = spacebash_s::GetCol(pixel_fmt, 0, 255, 0);
     spacebash_s::Cube * c;
-    //++theta;
 
-    for (int i = 0; i < nCubes; ++i)
+    for (int i = 0; i < nAsteroidObjects; ++i)
     {
+        theta += 4;
+        if (theta > 360)
+            theta = 0;
+        asteroids[i].Render(camera, surface, pixel_fmt);
         c = &cubes[i];
+        PositionCube(c, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].position.z, cSize);
+
         RotateVertex(&c->vertices[0], &c->vertices[8]);
         RotateVertex(&c->vertices[1], &c->vertices[8]);
         RotateVertex(&c->vertices[2], &c->vertices[8]);
@@ -111,5 +114,3 @@ void ObjectField::Update()
         ++c;
     }
 }
-
-

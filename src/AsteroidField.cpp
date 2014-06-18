@@ -1,6 +1,6 @@
 #include "AsteroidField.h"
 
-AsteroidField::AsteroidField(BufferObject * surf, Camera * cam) : PlaneObject(surf, cam)
+AsteroidField::AsteroidField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt)
 {
     nAsteroids = 50;    //reasonable number ... for now
     asteroids = new Asteroid[nAsteroids];
@@ -13,5 +13,5 @@ AsteroidField::~AsteroidField()
 void AsteroidField::Update()
 {
     for (int i = 0; i < nAsteroids; ++i)
-        asteroids[i].Render(camera, surface);
+        asteroids[i].Render(camera, surface, pixel_fmt);
 }

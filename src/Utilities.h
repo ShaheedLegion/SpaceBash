@@ -6,6 +6,29 @@
 
 namespace spacebash
 {
+Uint32 rmask = 0x000000ff;
+Uint32 rshift = 0;
+Uint32 gmask = 0x0000ff00;
+Uint32 gshift = 8;
+Uint32 bmask = 0x00ff0000;
+Uint32 bshift = 16;
+Uint32 amask = 0xff000000;
+Uint32 ashift = 24;
+
+    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
+       on the endianness (byte order) of the machine */
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    rshift = 24;
+    gmask = 0x00ff0000;
+    gshift = 16;
+    bmask = 0x0000ff00;
+    bshift = 8;
+    amask = 0x000000ff;
+    ashift = 0;
+#endif
+
     static float * sin_table;
     static float * cos_table;
 
@@ -29,12 +52,38 @@ namespace spacebash
             z0 += sz;
         }
     }
-    /*
-    void line(BufferObject * surface, Uint32 color, float x0, float y0, float z0, float x1, float y1, float z1)
+    void grad_line(BufferObject * surf, int x0, int y0, int x1, int y1)
     {
-        line(surface, color, (int)x0, (int)y0, z0, (int)x1, (int)y1, z1);
+        int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
+        int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
+        int err = (dx>dy ? dx : -dy)/2, e2;
+        int len = sqrt( dx * dx + dy * dy );
+
+        float delta_c = (float)(0 - 255) / (float)((len / 6) * 5);
+        float c_c = (float)255;
+
+        Uint32 ccol;
+        for(;;)
+        {
+            #if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                ccol = (Uint32)((Uint32)(c_c) << rshift)| ((Uint32)(c_c) << gshift)| ((Uint32)(c_c) << bshift)| ((Uint32)(100) << ashift);
+            #else
+                ccol = (Uint32)((Uint32)(100) << ashift| (Uint32)(c_c) << bshift| (Uint32)(c_c) << gshift| (Uint32)(c_c) << rshift);
+            #endif
+            surf->Write(x0, y0, 0, ccol);
+
+            if (x0 == x1 && y0 == y1) break;
+            e2 = err;
+            if (e2 >-dx) { err -= dy; x0 += sx; }
+            if (e2 < dy) { err += dx; y0 += sy; }
+
+            c_c += delta_c;
+
+            if (c_c < 0)
+                c_c = 0;
+        }
     }
-    */
+
     void InitTables()
     {
         int len = 361;

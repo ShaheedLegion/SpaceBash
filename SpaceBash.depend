@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1402600984 source:c:\projects\github\spacebash\main.cpp
+1402604584 source:c:\projects\github\spacebash\main.cpp
 	<SDL/SDL.h>
 	"src/SpaceBash.h"
 
@@ -318,7 +318,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_audio.h"
@@ -337,14 +337,14 @@
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_main.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_stdinc.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -370,7 +370,7 @@
 	<stdlib.h>
 	"close_code.h"
 
-1326110987 c:\sdl-1.2.15\include\sdl\sdl_config.h
+1326114587 c:\sdl-1.2.15\include\sdl\sdl_config.h
 	"SDL_platform.h"
 	"SDL_config_dreamcast.h"
 	"SDL_config_macos.h"
@@ -380,16 +380,16 @@
 	"SDL_config_os2.h"
 	"SDL_config_minimal.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_platform.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_platform.h
 
-1326110994 c:\sdl-1.2.15\include\sdl\sdl_config_win32.h
+1326114594 c:\sdl-1.2.15\include\sdl\sdl_config_win32.h
 	"SDL_platform.h"
 
-1326111000 c:\sdl-1.2.15\include\sdl\begin_code.h
+1326114600 c:\sdl-1.2.15\include\sdl\begin_code.h
 
-1325738639 c:\sdl-1.2.15\include\sdl\close_code.h
+1325742239 c:\sdl-1.2.15\include\sdl\close_code.h
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_audio.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -399,24 +399,24 @@
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_error.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_endian.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_endian.h
 	"SDL_stdinc.h"
 	<endian.h>
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_mutex.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_thread.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_mutex.h"
@@ -424,24 +424,24 @@
 	<process.h>
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_rwops.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_cdrom.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_cdrom.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_cpuinfo.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_events.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_active.h"
@@ -452,63 +452,63 @@
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_active.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_active.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_keyboard.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keysym.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_keysym.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_keysym.h
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_mouse.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_video.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_joystick.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_quit.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_loadso.h
-	"SDL_stdinc.h"
-	"SDL_error.h"
-	"begin_code.h"
-	"close_code.h"
-
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_timer.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1325738639 c:\sdl-1.2.15\include\sdl\sdl_version.h
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\sdl-1.2.15\include\sdl\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1402600984 c:\projects\github\spacebash\src\spacebash.h
+1402929256 c:\projects\github\spacebash\src\spacebash.h
 	<SDL/SDL.h>
 	<SDL/SDL_thread.h>
 	"Camera.hpp"
@@ -516,89 +516,97 @@
 	"PlaneObject.h"
 	<vector>
 
-1402599519 c:\projects\github\spacebash\src\starfield.h
+1402773324 c:\projects\github\spacebash\src\starfield.h
 	"Camera.hpp"
 	"PlaneObject.h"
 	"Structures.h"
 
-1402764656 c:\projects\github\spacebash\src\structures.h
+1402927809 c:\projects\github\spacebash\src\structures.h
 	<SDL/SDL.h>
 
-1402758277 source:c:\projects\github\spacebash\src\spacebash.cpp
+1402934437 source:c:\projects\github\spacebash\src\spacebash.cpp
 	"SpaceBash.h"
 	"StarField.h"
-	"AsteroidField.h"
-	"ObjectField.h"
+	"AsteroidObjectField.h"
 	"Overlay.h"
 	"Utilities.h"
 
-1402602592 source:c:\projects\github\spacebash\src\starfield.cpp
+1402773623 source:c:\projects\github\spacebash\src\starfield.cpp
 	<SDL/SDL.h>
 	<stdlib.h>
 	"StarField.h"
 
-1402599478 c:\projects\github\spacebash\src\asteroidfield.h
+1402773382 c:\projects\github\spacebash\src\asteroidfield.h
 	"Camera.hpp"
 	"PlaneObject.h"
 	"Asteroid.h"
 
-1402597703 c:\projects\github\spacebash\src\asteroid.h
+1402933914 c:\projects\github\spacebash\src\asteroid.h
 	<SDL/SDL.h>
 	"BufferObject.h"
 	"Structures.h"
 	"Camera.hpp"
 
-1402602724 source:c:\projects\github\spacebash\src\asteroid.cpp
+1402934763 source:c:\projects\github\spacebash\src\asteroid.cpp
 	"Asteroid.h"
 	"Utilities.h"
 
-1402763266 c:\projects\github\spacebash\src\utilities.h
+1402931685 c:\projects\github\spacebash\src\utilities.h
 	<SDL/SDL.h>
 	"BufferObject.h"
 	<math.h>
 
-1402597717 source:c:\projects\github\spacebash\src\asteroidfield.cpp
+1402774013 source:c:\projects\github\spacebash\src\asteroidfield.cpp
 	"AsteroidField.h"
 
-1402336478 c:\projects\github\spacebash\src\bufferobject.h
+1402772892 c:\projects\github\spacebash\src\bufferobject.h
 	"Structures.h"
 
-1402341812 source:c:\projects\github\spacebash\src\bufferobject.cpp
+1402930789 source:c:\projects\github\spacebash\src\bufferobject.cpp
 	"BufferObject.h"
 
-1402599417 c:\projects\github\spacebash\src\planeobject.h
+1402773324 c:\projects\github\spacebash\src\planeobject.h
 	"BufferObject.h"
 	"Camera.hpp"
 
-1402597022 source:c:\projects\github\spacebash\src\planeobject.cpp
+1402773463 source:c:\projects\github\spacebash\src\planeobject.cpp
 	"PlaneObject.h"
 
-1402601830 source:c:\projects\github\spacebash\src\arraystarfield.cpp
+1402773350 source:c:\projects\github\spacebash\src\arraystarfield.cpp
 	<SDL/SDL.h>
 	<stdlib.h>
 	"ArrayStarField.h"
 
-1402599336 c:\projects\github\spacebash\src\arraystarfield.h
+1402773350 c:\projects\github\spacebash\src\arraystarfield.h
 	"Camera.hpp"
 	"PlaneObject.h"
 
-1402766026 c:\projects\github\spacebash\src\camera.hpp
+1402769626 c:\projects\github\spacebash\src\camera.hpp
 	"Utilities.h"
 
-1402687502 c:\projects\github\spacebash\src\overlay.h
+1402929252 c:\projects\github\spacebash\src\overlay.h
 	"PlaneObject.h"
 	"Structures.h"
 
-1402688062 source:c:\projects\github\spacebash\src\overlay.cpp
+1402929556 source:c:\projects\github\spacebash\src\overlay.cpp
 	"Overlay.h"
 	"Utilities.h"
 
-1402765873 source:c:\projects\github\spacebash\src\objectfield.cpp
+1402773423 source:c:\projects\github\spacebash\src\objectfield.cpp
 	<stdlib.h>
 	"ObjectField.h"
 
-1402765585 c:\projects\github\spacebash\src\objectfield.h
+1402773411 c:\projects\github\spacebash\src\objectfield.h
 	"Camera.hpp"
 	"PlaneObject.h"
 	"Structures.h"
+
+1402934463 c:\projects\github\spacebash\src\asteroidobjectfield.h
+	"Camera.hpp"
+	"PlaneObject.h"
+	"Asteroid.h"
+	"Structures.h"
+
+1402934670 source:c:\projects\github\spacebash\src\asteroidobjectfield.cpp
+	"AsteroidObjectField.h"
 

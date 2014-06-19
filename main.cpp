@@ -15,6 +15,8 @@ int main( int argc, char * args[] )
             break;
         if (e.type == SDL_MOUSEMOTION)
             spaceBash.UpdateMouse(e.motion.x, e.motion.y);
+        if (e.type == SDL_MOUSEBUTTONDOWN)
+            spaceBash.Fire(e.button.x, e.button.y);
         if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT)
             direction = 1;
         if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_LEFT)

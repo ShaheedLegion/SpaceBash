@@ -3,6 +3,8 @@
 
 Overlay::Overlay(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt), nOculusPoints(8), nGyroPoints(12)
 {
+    nFireCount = 0;
+    isFiring = false;
     oculus = new spacebash_s::Point[nOculusPoints];
     float oSize = 0.05f;
     SetPoint(&oculus[0], -oSize, 0.0f);
@@ -83,4 +85,26 @@ void Overlay::Update()
     spacebash::line(surface, c5, oculus[5].tx, oculus[5].ty, oculus[5].z, oculus[6].tx, oculus[6].ty, oculus[6].z);
     spacebash::line(surface, c5, oculus[6].tx, oculus[6].ty, oculus[6].z, oculus[7].tx, oculus[7].ty, oculus[7].z);
     spacebash::line(surface, c5, oculus[7].tx, oculus[7].ty, oculus[7].z, oculus[4].tx, oculus[4].ty, oculus[4].z);
+
+    if (isFiring)
+    {
+        --nFireCount;
+        if (nFireCount < 0)
+        isFiring = false;
+
+        int wt = surface->GetWidth();
+        int w2 = camera->GetHalfWidth();
+        int ht = camera->GetHalfHeight();
+        int hh = surface->GetHeight();
+        spacebash::line(surface, c3, 0, hh, 0, w2, ht, 0);
+        spacebash::line(surface, c3, wt, hh, 0, w2, ht, 0);
+        spacebash::line(surface, c4, 0, 0, 0, w2, ht, 0);
+        spacebash::line(surface, c4, wt, 0, 0, w2, ht, 0);
+    }
+}
+
+void Overlay::SetFiring(int mx, int my)
+{
+    nFireCount = 6;    //fire a single shot for 10 frames.
+    isFiring = true;
 }

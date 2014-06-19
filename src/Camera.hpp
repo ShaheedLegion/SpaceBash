@@ -99,9 +99,17 @@ public:
     {
         return w;
     }
+    int GetHalfWidth()
+    {
+        return wcx;
+    }
     int GetHeight()
     {
         return h;
+    }
+    int GetHalfHeight()
+    {
+        return wcy;
     }
 
     //arbitrary functions to rotate objects in place around different axes

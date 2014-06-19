@@ -13,6 +13,9 @@ protected:
     int nGyroPoints;
     spacebash_s::Point * gyro;
 
+    int nFireCount;
+    bool isFiring;
+
     void SetPoint(spacebash_s::Point * pt, float x, float y);
 
 public:
@@ -20,6 +23,7 @@ public:
     ~Overlay();
 
     void Update();
+    void SetFiring(int mx, int my);
 };
 
 #endif // OVERLAY_H_INCLUDED

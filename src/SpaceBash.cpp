@@ -3,7 +3,6 @@
 //#include "AsteroidField.h"
 //#include "ObjectField.h"
 #include "AsteroidObjectField.h"
-#include "Overlay.h"
 #include "Utilities.h"
 
 #define BPP 32
@@ -85,10 +84,9 @@ SpaceBash::SpaceBash()
     }
     screen_buffer = new BufferObject(width, height);
     planes.push_back(new StarField(screen_buffer, camera, screen->format));
- //   planes.push_back(new AsteroidField(screen_buffer, camera, screen->format));
- //   planes.push_back(new ObjectField(screen_buffer, camera, screen->format));
     planes.push_back(new AsteroidObjectField(screen_buffer, camera, screen->format));
-    planes.push_back(new Overlay(screen_buffer, camera, screen->format));
+    overlay = new Overlay(screen_buffer, camera, screen->format);
+    planes.push_back(overlay);
 
     SetRunning(true);
     updateThread = SDL_CreateThread(&Update, (void *)NULL);
@@ -124,4 +122,9 @@ void SpaceBash::UpdateMouse(int mcx, int mcy)
 void SpaceBash::SetDirection(int dir)
 {
     camera->SetRotation(dir);
+}
+
+void SpaceBash::Fire(int mcx, int mcy)
+{
+    overlay->SetFiring(mcx, mcy);
 }

@@ -24,6 +24,7 @@ public:
 
     void Update();
     void SetFiring(int mx, int my);
+    bool IsFiring();
 };
 
 #endif // OVERLAY_H_INCLUDED

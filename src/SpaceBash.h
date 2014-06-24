@@ -21,6 +21,8 @@ public:
     std::vector<PlaneObject *> planes;
     bool bRunning;
 
+    void CheckCollisions();
+
 public:
     SpaceBash();
     ~SpaceBash();

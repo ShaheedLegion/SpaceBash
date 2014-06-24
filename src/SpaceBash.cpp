@@ -1,7 +1,5 @@
 #include "SpaceBash.h"
 #include "StarField.h"
-//#include "AsteroidField.h"
-//#include "ObjectField.h"
 #include "AsteroidObjectField.h"
 #include "Utilities.h"
 
@@ -16,6 +14,7 @@ int Update(void * data)
     while (g_spaceBash->IsRunning())
     {
         g_spaceBash->screen_buffer->Clear();
+        g_spaceBash->CheckCollisions(); //check collisions first - then we can immediately render the exlosion.
         g_spaceBash->camera->StartBatch();
         for (i = g_spaceBash->planes.begin(); i != e; ++i)
             (*i)->Update();
@@ -127,4 +126,23 @@ void SpaceBash::SetDirection(int dir)
 void SpaceBash::Fire(int mcx, int mcy)
 {
     overlay->SetFiring(mcx, mcy);
+}
+
+void SpaceBash::CheckCollisions()
+{
+    if (!overlay->IsFiring())
+        return;
+
+    //run collission tests here
+    /*
+    Start by enumerating the objects from the AstroidObjectField, then running the collission test
+    against all those objects. We can easily cull more than hald of the objets out of the test since
+    they will not be visible on the screen.
+
+    The rest of the objects we will test by proximity to the center of the screen. We test proximity to the center
+    point of each cube - it was there by luck.
+
+    If the proximity is within a certain boundary, then we simply cause the particle trail to "explode" from the center
+    of the cube - we then increment the point scheduler (still to be written).
+    */
 }

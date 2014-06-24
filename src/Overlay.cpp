@@ -108,3 +108,8 @@ void Overlay::SetFiring(int mx, int my)
     nFireCount = 6;    //fire a single shot for 10 frames.
     isFiring = true;
 }
+
+bool Overlay::IsFiring()
+{
+    return isFiring;
+}

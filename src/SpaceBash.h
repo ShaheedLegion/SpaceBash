@@ -7,6 +7,7 @@
 #include "BufferObject.h"
 #include "PlaneObject.h"
 #include "Overlay.h"
+#include "AsteroidObjectField.h"
 #include <vector>
 
 class SpaceBash
@@ -17,6 +18,7 @@ public:
     BufferObject * screen_buffer;
     BufferObject * lightingMask;
     Overlay * overlay;
+    AsteroidObjectField * field;
     Camera * camera;
     std::vector<PlaneObject *> planes;
     bool bRunning;

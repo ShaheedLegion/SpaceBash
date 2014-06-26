@@ -83,7 +83,8 @@ SpaceBash::SpaceBash()
     }
     screen_buffer = new BufferObject(width, height);
     planes.push_back(new StarField(screen_buffer, camera, screen->format));
-    planes.push_back(new AsteroidObjectField(screen_buffer, camera, screen->format));
+    field = new AsteroidObjectField(screen_buffer, camera, screen->format);
+    planes.push_back(field);
     overlay = new Overlay(screen_buffer, camera, screen->format);
     planes.push_back(overlay);
 
@@ -133,6 +134,22 @@ void SpaceBash::CheckCollisions()
     if (!overlay->IsFiring())
         return;
 
+    std::vector<spacebash_s::Cube *> visibleObjects;
+    field->GetVisibleObjects(visibleObjects);
+
+    std::vector::<spacebash_s::Cube *>::iterator _it(visibleObjects.begin()), _end(visibleObjects.end());
+    spacebash_s::Cube * c;
+    for (; _it != _end; ++_it)
+    {
+        c = *_it;
+        if (c->vertices[8].tx ... )
+        {
+            if (c->vertices[8].ty ...)
+            {
+                c->exploding = true;
+            }
+        }
+    }
     //run collission tests here
     /*
     Start by enumerating the objects from the AstroidObjectField, then running the collission test

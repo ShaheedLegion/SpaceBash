@@ -10,6 +10,7 @@ AsteroidObjectField::AsteroidObjectField(BufferObject * surf, Camera * cam, SDL_
     for (int i = 0; i < nAsteroidObjects; ++i)
     {
         PositionCube(&cubes[i], asteroids[i].position.x, asteroids[i].position.y, asteroids[i].position.z, cSize);
+        cubes[i].exploding = false;
     }
 }
 
@@ -53,9 +54,17 @@ void AsteroidObjectField::PositionCube(spacebash_s::Cube * c, float cx, float cy
     c->vertices[7].y = cy + dim;
     c->vertices[7].z = cz + dim;
 
-    c->vertices[8].x = cx;
-    c->vertices[8].y = cy;
-    c->vertices[8].z = cz;
+    c->dimensions[0].x = cx;
+    c->dimensions[0].y = cy;
+    c->dimensions[0].z = cz;
+
+    c->dimensions[1].x = cx - dim;
+    c->dimensions[1].y = cy;
+    c->dimensions[1].z = cz;
+
+    c->dimensions[2].x = cx + dim;
+    c->dimensions[2].y = cy;
+    c->dimensions[2].z = cz;
 }
 
 void AsteroidObjectField::RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c)
@@ -77,19 +86,24 @@ void AsteroidObjectField::Update()
             theta = 0;
         asteroids[i].Render(camera, surface, pixel_fmt);
         c = &cubes[i];
+        c->visible = false;
         PositionCube(c, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].position.z, cSize);
 
-        RotateVertex(&c->vertices[0], &c->vertices[8]);
-        RotateVertex(&c->vertices[1], &c->vertices[8]);
-        RotateVertex(&c->vertices[2], &c->vertices[8]);
-        RotateVertex(&c->vertices[3], &c->vertices[8]);
-        RotateVertex(&c->vertices[4], &c->vertices[8]);
-        RotateVertex(&c->vertices[5], &c->vertices[8]);
-        RotateVertex(&c->vertices[6], &c->vertices[8]);
-        RotateVertex(&c->vertices[7], &c->vertices[8]);
+        RotateVertex(&c->vertices[0], &c->dimensions[0]);
+        RotateVertex(&c->vertices[1], &c->dimensions[0]);
+        RotateVertex(&c->vertices[2], &c->dimensions[0]);
+        RotateVertex(&c->vertices[3], &c->dimensions[0]);
+        RotateVertex(&c->vertices[4], &c->dimensions[0]);
+        RotateVertex(&c->vertices[5], &c->dimensions[0]);
+        RotateVertex(&c->vertices[6], &c->dimensions[0]);
+        RotateVertex(&c->vertices[7], &c->dimensions[0]);
 
-        for (int j = 0; j < 9; ++j)
+        for (int j = 0; j < 8; ++j)
             camera->Transform(&c->vertices[j].tx, &c->vertices[j].ty, &c->vertices[j].x, &c->vertices[j].y, c->vertices[j].z);
+
+        camera->Transform(&c->dimensions[0].tx, &c->dimensions[0].ty, &c->dimensions[0].x, &c->dimensions[0].y, c->dimensions[0].z);
+        camera->Transform(&c->dimensions[1].tx, &c->dimensions[1].ty, &c->dimensions[1].x, &c->dimensions[1].y, c->dimensions[1].z);
+        camera->Transform(&c->dimensions[2].tx, &c->dimensions[2].ty, &c->dimensions[2].x, &c->dimensions[2].y, c->dimensions[2].z);
 
         if (c->vertices[0].tx < 0 || c->vertices[0].tx > camera->GetWidth())
             continue;
@@ -99,6 +113,9 @@ void AsteroidObjectField::Update()
             continue;
         if (c->vertices[2].ty < 0 || c->vertices[2].ty > camera->GetHeight())
             continue;
+
+        c->visible = true;
+
         spacebash::line(surface, color, c->vertices[0].tx, c->vertices[0].ty, c->vertices[0].z, c->vertices[1].tx, c->vertices[1].ty, c->vertices[1].z);
         spacebash::line(surface, color, c->vertices[1].tx, c->vertices[1].ty, c->vertices[1].z, c->vertices[2].tx, c->vertices[2].ty, c->vertices[2].z);
         spacebash::line(surface, color, c->vertices[2].tx, c->vertices[2].ty, c->vertices[2].z, c->vertices[3].tx, c->vertices[3].ty, c->vertices[3].z);
@@ -112,5 +129,14 @@ void AsteroidObjectField::Update()
         spacebash::line(surface, color, c->vertices[2].tx, c->vertices[2].ty, c->vertices[2].z, c->vertices[6].tx, c->vertices[6].ty, c->vertices[6].z);
         spacebash::line(surface, color, c->vertices[3].tx, c->vertices[3].ty, c->vertices[3].z, c->vertices[7].tx, c->vertices[7].ty, c->vertices[7].z);
         ++c;
+    }
+}
+
+void AsteroidObjectField::GetVisibleObjects(std::vector<spacebash_s::Cube *> & objects)
+{
+    for (int i = 0; i < nAsteroidObjects; ++i)
+    {
+        if (cubes[i].visible)
+            objects.push_back((&cubes[i]));
     }
 }

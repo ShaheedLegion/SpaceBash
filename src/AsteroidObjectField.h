@@ -4,6 +4,7 @@
 #include "PlaneObject.h"
 #include "Asteroid.h"
 #include "Structures.h"
+#include <vector>
 
 class AsteroidObjectField : public PlaneObject
 {
@@ -21,6 +22,7 @@ public:
     ~AsteroidObjectField();
 
     void Update();
+    void GetVisibleObjects(std::vector<spacebash_s::Cube *> & objects);
 };
 
 #endif // ASTEROIDOBJECTFIELD_H_INCLUDED

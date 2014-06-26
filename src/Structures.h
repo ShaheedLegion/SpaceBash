@@ -48,7 +48,10 @@ typedef struct tagBufferPoint
 
 typedef struct tagCube
 {
-    Point vertices[9];
+    Point vertices[8];
+    Point dimensions[3];
+    bool exploding;
+    bool visible;
 } Cube;
 };
 

@@ -1,8 +1,15 @@
 #ifndef SPACEBASH_H_INCLUDED
 #define SPACEBASH_H_INCLUDED
 
+#if defined(USE_SDL)
 #include <SDL/SDL.h>
 #include <SDL/SDL_thread.h>
+#else
+#define Uint32 unsigned int
+#include "SpaceBashSurface.h"
+#include "SpaceBashThread.h"
+#endif
+
 #include "Camera.hpp"
 #include "BufferObject.h"
 #include "PlaneObject.h"
@@ -13,8 +20,14 @@
 class SpaceBash
 {
 public:
+#if defined(USE_SDL)
     SDL_Surface * screen;
     SDL_Thread * updateThread;
+#else
+	SpaceBash_Surface* screen;
+	SpaceBash_Thread* updateThread;
+#endif
+
     BufferObject * screen_buffer;
     BufferObject * lightingMask;
     Overlay * overlay;

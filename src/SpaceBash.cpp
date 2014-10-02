@@ -24,8 +24,10 @@ int Update(void * data)
         spacebash_s::Color * bp =  g_spaceBash->screen_buffer->GetBuffer();
         spacebash_s::Color * lp =  g_spaceBash->lightingMask->GetBuffer();
 
+#if defined(USE_SDL)
         if (SDL_MUSTLOCK(g_spaceBash->screen))
             SDL_LockSurface(g_spaceBash->screen);
+#endif
 
         Uint32 * pixels = (Uint32*)g_spaceBash->screen->pixels;
         while (--len > 0)
@@ -35,11 +37,16 @@ int Update(void * data)
             lp++;
             pixels++;
         }
+#if defined(USE_SDL)
         if (SDL_MUSTLOCK(g_spaceBash->screen))
             SDL_UnlockSurface(g_spaceBash->screen);
 
         SDL_Flip(g_spaceBash->screen);        //Update Screen
         SDL_Delay(30);        //Pause
+#else
+		g_spaceBash->screen->Flip();
+		g_spaceBash->updateThread->Delay(30);
+#endif
     }
 
     return 0;
@@ -89,12 +96,20 @@ SpaceBash::SpaceBash()
     planes.push_back(overlay);
 
     SetRunning(true);
+#if defined(USE_SDL)
     updateThread = SDL_CreateThread(&Update, (void *)NULL);
+#else
+	updateThread = new SpaceBash_Thread(&Update);
+#endif
 }
 
 SpaceBash::~SpaceBash()
 {
+#if defined(USE_SDL)
     SDL_KillThread(updateThread);
+#else
+	updateThread->Join();
+#endif
     pIter i = planes.begin(), e = planes.end();
     for (; i != e; ++i)
         delete (*i);

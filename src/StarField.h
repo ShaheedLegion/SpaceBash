@@ -12,7 +12,12 @@ protected:
     spacebash_s::Point * stars;
 
 public:
-    StarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
+#if defined(USE_SDL)
+	StarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
+#else
+	StarField(BufferObject * surf, Camera * cam, int bpp);
+#endif
+	
     ~StarField();
 
     void Update();

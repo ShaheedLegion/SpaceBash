@@ -29,7 +29,7 @@ int Update(void * data)
             SDL_LockSurface(g_spaceBash->screen);
 #endif
 
-        Uint32 * pixels = (Uint32*)g_spaceBash->screen->pixels;
+        Uint32 * pixels = (Uint32*)g_spaceBash->screen->GetPixels();
         while (--len > 0)
         {
             *((Uint32*)pixels) = *(Uint32*)(bp) & *(Uint32*)(lp);
@@ -58,7 +58,7 @@ SpaceBash::SpaceBash()
     int width = 640;
     int height = 480;
     spacebash::InitTables();
-
+#if defined(USE_SDL)
     const SDL_VideoInfo * pVidInfo = SDL_GetVideoInfo();
     if (pVidInfo)
     {
@@ -67,6 +67,9 @@ SpaceBash::SpaceBash()
     }
 
     screen = SDL_SetVideoMode(width, height, BPP, SDL_HWSURFACE | SDL_DOUBLEBUF);
+#else
+	screen = new SpaceBashSurface(width, height, BPP);
+#endif
     camera = new Camera(width, height);
     lightingMask = new BufferObject(width, height);
     if (lightingMask)
@@ -89,10 +92,10 @@ SpaceBash::SpaceBash()
         }
     }
     screen_buffer = new BufferObject(width, height);
-    planes.push_back(new StarField(screen_buffer, camera, screen->format));
-    field = new AsteroidObjectField(screen_buffer, camera, screen->format);
+    planes.push_back(new StarField(screen_buffer, camera, screen->GetBPP()));
+    field = new AsteroidObjectField(screen_buffer, camera, screen->GetBPP());
     planes.push_back(field);
-    overlay = new Overlay(screen_buffer, camera, screen->format);
+    overlay = new Overlay(screen_buffer, camera, screen->GetBPP());
     planes.push_back(overlay);
 
     SetRunning(true);
@@ -148,7 +151,7 @@ void SpaceBash::CheckCollisions()
 {
     if (!overlay->IsFiring())
         return;
-
+#if 0
     std::vector<spacebash_s::Cube *> visibleObjects;
     field->GetVisibleObjects(visibleObjects);
 
@@ -165,6 +168,7 @@ void SpaceBash::CheckCollisions()
             }
         }
     }
+#endif  // 0
     //run collission tests here
     /*
     Start by enumerating the objects from the AstroidObjectField, then running the collission test

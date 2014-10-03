@@ -5,7 +5,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_thread.h>
 #else
-#define Uint32 unsigned int
 #include "SpaceBashSurface.h"
 #include "SpaceBashThread.h"
 #endif
@@ -24,7 +23,7 @@ public:
     SDL_Surface * screen;
     SDL_Thread * updateThread;
 #else
-	SpaceBash_Surface* screen;
+	SpaceBashSurface* screen;
 	SpaceBash_Thread* updateThread;
 #endif
 

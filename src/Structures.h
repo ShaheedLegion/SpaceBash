@@ -4,8 +4,8 @@
 #if defined(USE_SDL)
 #include <SDL/SDL.h>
 #else
-#define unsigned char Uint8
-#define unsigned int Uint32
+typedef unsigned char Uint8;
+typedef unsigned int Uint32;
 #endif
 
 namespace spacebash_s
@@ -13,7 +13,7 @@ namespace spacebash_s
 #if defined(USE_SDL)
 typedef Uint8 _uc;
 #else
-#define unsigned char _uc
+	typedef unsigned char _uc;
 #endif
 
 #if defined(USE_SDL)
@@ -32,11 +32,11 @@ typedef struct tagColor
     #endif
 } Color;
 #else
-	typedef struct tagColor{
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		unsigned char a;
+	typedef struct tagColor {
+		Uint8 r;
+		Uint8 g;
+		Uint8 b;
+		Uint8 a;
 	} Color;
 #endif
 
@@ -52,12 +52,12 @@ Uint32 GetCol_A(SDL_PixelFormat * pixel_fmt, _uc r, _uc g, _uc b, _uc a)
 	return col;
 }
 #else
-unsigned int GetCol(_uc r, _uc g, _uc b)
+Uint32 GetCol(_uc r, _uc g, _uc b)
 {
 	unsigned int col = ((unsigned int)(((_uc)(r) | ((unsigned short)((_uc)(g)) << 8)) | (((unsigned short)(_uc)(b)) << 16)));
 	return col;
 }
-unsigned int GetCol_A(_uc r, _uc g, _uc b, _uc a)
+Uint32 GetCol_A(_uc r, _uc g, _uc b, _uc a)
 {
 	unsigned int col = ((unsigned int)(((_uc)(r) | ((unsigned short)((_uc)(g)) << 8)) | (((unsigned short)(_uc)(b)) << 16))) | (((unsigned int)(_uc)(a)) << 24);
 	return col;

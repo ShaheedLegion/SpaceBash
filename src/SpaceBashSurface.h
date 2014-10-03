@@ -3,7 +3,7 @@
 #ifndef SPACE_BASH_SURFACE
 #define SPACE_BACH_SURFACE
 
-#define Uint32 unsigned int
+typedef unsigned int Uint32;
 
 class SpaceBashSurface {
 public:

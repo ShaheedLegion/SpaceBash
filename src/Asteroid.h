@@ -23,7 +23,7 @@ public:
 #if defined(USE_SDL)
     void Render(Camera * cam, BufferObject * surf, SDL_PixelFormat * fmt);
 #else
-	void Render(Camera* cam, BufferObject* surf, int bpp);
+	void Render(Camera* cam, BufferObject* surf);
 #endif
 };
 

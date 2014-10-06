@@ -11,7 +11,7 @@ protected:
 #if defined(USE_SDL)
     SDL_PixelFormat * pixel_fmt;
 #else
-	int bpp;
+	int m_bpp;
 #endif
     int w;
     int h;

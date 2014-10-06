@@ -1,4 +1,5 @@
 #include "BufferObject.h"
+#include <cstring>
 
 BufferObject::BufferObject(int width, int height) : w(width), h(height)
 {

@@ -1,5 +1,6 @@
 #include "Asteroid.h"
 #include "Utilities.h"
+#include <cstdlib>
 
 Asteroid::Asteroid()
 {
@@ -26,7 +27,11 @@ void Asteroid::InitParticle(spacebash_s::Point * pt)
     pt->z = position.z + (float)((float)rand() / (float)RAND_MAX) * 7.0f;
 }
 
+#if defined(USE_SDL)
 void Asteroid::Render(Camera * cam, BufferObject * surf, SDL_PixelFormat * fmt)
+#else
+void Asteroid::Render(Camera * cam, BufferObject * surf)
+#endif
 {
     spacebash_s::Point * p;
     int tx, ty;
@@ -61,7 +66,11 @@ void Asteroid::Render(Camera * cam, BufferObject * surf, SDL_PixelFormat * fmt)
         if (bRender)
         {
             float dist = (((p->z - position.z) + 0.5f) / 10.0f) * 235.0f;
+#if defined(USE_SDL)
             col = spacebash_s::GetCol(fmt, 250, (Uint8)(255 - (Uint8)dist), 0);
+#else
+			col = spacebash_s::GetCol(250, (Uint8)(255 - (Uint8)dist), 0);
+#endif
             surf->Write(tx, ty, p->z, (Uint32)col);
         }
 

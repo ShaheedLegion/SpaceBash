@@ -75,7 +75,7 @@ long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp,
 }
 
 int main(int argc, char *args[]) {
-  HDC window;
+  HDC windowDC;
   SpaceBash spaceBash;
   _main::g_spaceBash = &spaceBash;
 

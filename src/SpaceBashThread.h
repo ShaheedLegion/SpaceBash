@@ -17,6 +17,9 @@ public:
 			m_running = false;
 	}
 
+	void Delay(short millis) {
+		// Try to delay for |millis| time duration.
+	}
 protected:
 	bool m_running;
 	//some protected stuff.

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef STRUCTURES_H_INCLUDED
 #define STRUCTURES_H_INCLUDED
 
@@ -41,23 +42,23 @@ typedef struct tagColor
 #endif
 
 #if defined(USE_SDL)
-Uint32 GetCol(SDL_PixelFormat * pixel_fmt, _uc r, _uc g, _uc b)
+static Uint32 GetCol(SDL_PixelFormat * pixel_fmt, _uc r, _uc g, _uc b)
 {
     Uint32 col = SDL_MapRGB(pixel_fmt, r, g, b);
     return col;
 }
-Uint32 GetCol_A(SDL_PixelFormat * pixel_fmt, _uc r, _uc g, _uc b, _uc a)
+static Uint32 GetCol_A(SDL_PixelFormat * pixel_fmt, _uc r, _uc g, _uc b, _uc a)
 {
 	Uint32 col = SDL_MapRGBA(pixel_fmt, r, g, b, a);
 	return col;
 }
 #else
-Uint32 GetCol(_uc r, _uc g, _uc b)
+static Uint32 GetCol(_uc r, _uc g, _uc b)
 {
 	unsigned int col = ((unsigned int)(((_uc)(r) | ((unsigned short)((_uc)(g)) << 8)) | (((unsigned short)(_uc)(b)) << 16)));
 	return col;
 }
-Uint32 GetCol_A(_uc r, _uc g, _uc b, _uc a)
+static Uint32 GetCol_A(_uc r, _uc g, _uc b, _uc a)
 {
 	unsigned int col = ((unsigned int)(((_uc)(r) | ((unsigned short)((_uc)(g)) << 8)) | (((unsigned short)(_uc)(b)) << 16))) | (((unsigned int)(_uc)(a)) << 24);
 	return col;

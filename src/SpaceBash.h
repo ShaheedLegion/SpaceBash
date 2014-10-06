@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SPACEBASH_H_INCLUDED
 #define SPACEBASH_H_INCLUDED
 

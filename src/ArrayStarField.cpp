@@ -1,8 +1,14 @@
+#if defined(USE_SDL)
 #include <SDL/SDL.h>
+#endif
 #include <stdlib.h>
 #include "ArrayStarField.h"
 
+#if defined(USE_SDL)
 ArrayStarField::ArrayStarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt)
+#else
+ArrayStarField::ArrayStarField(BufferObject * surf, Camera * cam, int bpp) : PlaneObject(surf, cam, bpp)
+#endif
 {
     nstars = cam->GetHeight() * 6;
     _x = new float[nstars];

@@ -1,7 +1,12 @@
 #include "AsteroidObjectField.h"
 
+#if defined(USE_SDL)
 AsteroidObjectField::AsteroidObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) :
     PlaneObject(surf, cam, fmt), nAsteroidObjects(cam->GetHeight() / 2), theta(20)
+#else
+AsteroidObjectField::AsteroidObjectField(BufferObject * surf, Camera * cam, int bpp) :
+    PlaneObject(surf, cam, bpp), nAsteroidObjects(cam->GetHeight() / 2), theta(20)
+#endif
 {
     cSize = 0.35f;  //actually half the size, but who's counting?
     cubes = new spacebash_s::Cube[nAsteroidObjects];
@@ -76,7 +81,11 @@ void AsteroidObjectField::RotateVertex(spacebash_s::Point * v, spacebash_s::Poin
 
 void AsteroidObjectField::Update()
 {
+#if defined(USE_SDL)
     Uint32 color = spacebash_s::GetCol(pixel_fmt, 0, 255, 0);
+#else
+	Uint32 color = spacebash_s::GetCol(0, 255, 0);
+#endif
     spacebash_s::Cube * c;
 
     for (int i = 0; i < nAsteroidObjects; ++i)
@@ -84,7 +93,11 @@ void AsteroidObjectField::Update()
         theta += 4;
         if (theta > 360)
             theta = 0;
+#if defined(USE_SDL)
         asteroids[i].Render(camera, surface, pixel_fmt);
+#else
+		asteroids[i].Render(camera, surface);
+#endif
         c = &cubes[i];
         c->visible = false;
         PositionCube(c, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].position.z, cSize);

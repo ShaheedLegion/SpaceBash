@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #include "ObjectField.h"
 
+#if defined(USE_SDL)
 ObjectField::ObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt), nCubes(cam->GetHeight()), theta(10)
+#else
+ObjectField::ObjectField(BufferObject * surf, Camera * cam, int bpp) : PlaneObject(surf, cam, bpp), nCubes(cam->GetHeight()), theta(10)
+#endif
 {
     cSize = 0.5f;  //actually half the size, but who's counting?
     float x, y, z;
@@ -69,7 +73,11 @@ void ObjectField::RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c)
 
 void ObjectField::Update()
 {
+#if defined(USE_SDL)
     Uint32 color = spacebash_s::GetCol(pixel_fmt, 0, 255, 0);
+#else
+	Uint32 color = spacebash_s::GetCol(0, 255, 0);
+#endif
     spacebash_s::Cube * c;
     //++theta;
 

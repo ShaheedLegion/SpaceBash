@@ -1,3 +1,4 @@
+#pragma once
 #ifndef UTILITIES_H_INCLUDED
 #define UTILITIES_H_INCLUDED
 #if defined(USE_SDL)
@@ -8,14 +9,14 @@
 
 namespace spacebash
 {
-Uint32 rmask = 0x000000ff;
-Uint32 rshift = 0;
-Uint32 gmask = 0x0000ff00;
-Uint32 gshift = 8;
-Uint32 bmask = 0x00ff0000;
-Uint32 bshift = 16;
-Uint32 amask = 0xff000000;
-Uint32 ashift = 24;
+static Uint32 rmask = 0x000000ff;
+static Uint32 rshift = 0;
+static Uint32 gmask = 0x0000ff00;
+static Uint32 gshift = 8;
+static Uint32 bmask = 0x00ff0000;
+static Uint32 bshift = 16;
+static Uint32 amask = 0xff000000;
+static Uint32 ashift = 24;
 
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
        on the endianness (byte order) of the machine */
@@ -34,13 +35,13 @@ Uint32 ashift = 24;
     static float * sin_table;
     static float * cos_table;
 
-    void line(BufferObject * surface, Uint32 color, int x0, int y0, float z0, int x1, int y1, float z1)
+    static void line(BufferObject * surface, Uint32 color, int x0, int y0, float z0, int x1, int y1, float z1)
     {
         int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
         int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
         int err = (dx>dy ? dx : -dy)/2, e2;
         float zdist = (z1 - z0);    //cannot use absolute value here, since sz depends on the sign of this calculation
-        int len = sqrt( dx * dx + dy * dy );
+        int len = static_cast<int>(sqrt(static_cast<double>( dx * dx + dy * dy )));
         float sz = zdist / (float)len;
 
         for(;;)
@@ -54,12 +55,12 @@ Uint32 ashift = 24;
             z0 += sz;
         }
     }
-    void grad_line(BufferObject * surf, int x0, int y0, int x1, int y1)
+    static void grad_line(BufferObject * surf, int x0, int y0, int x1, int y1)
     {
         int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
         int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
         int err = (dx>dy ? dx : -dy)/2, e2;
-        int len = sqrt( dx * dx + dy * dy );
+        int len = static_cast<int>(sqrt(static_cast<double>( dx * dx + dy * dy )));
 
         float delta_c = (float)(0 - 255) / (float)((len / 6) * 5);
         float c_c = (float)255;
@@ -90,7 +91,7 @@ Uint32 ashift = 24;
         }
     }
 
-    void InitTables()
+    static void InitTables()
     {
         int len = 361;
         sin_table = new float[len];
@@ -105,7 +106,7 @@ Uint32 ashift = 24;
             c_radian += 0.0174532925f;
         }
     }
-    void DestroyTables()
+    static void DestroyTables()
     {
         delete [] sin_table;
         delete [] cos_table;

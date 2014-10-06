@@ -1,8 +1,14 @@
+#if defined(USE_SDL)
 #include <SDL/SDL.h>
+#endif
 #include <stdlib.h>
 #include "StarField.h"
 
+#if defined(USE_SDL)
 StarField::StarField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt)
+#else
+StarField::StarField(BufferObject * surf, Camera * cam, int bpp) : PlaneObject(surf, cam, bpp)
+#endif
 {
     nstars = cam->GetHeight() * 6;
     stars = new spacebash_s::Point[nstars]; //should be less, but this is fine for testing
@@ -29,7 +35,11 @@ void StarField::Update()
     bool bSkip = false;
 
     spacebash_s::Point * star;
+#if defined(USE_SDL)
     Uint32 col = spacebash_s::GetCol(pixel_fmt, 99, 99, 99);
+#else
+	Uint32 col = spacebash_s::GetCol(99, 99, 99);
+#endif
     for (int i = 0; i < nstars; ++i)
     {
         star = &stars[i];

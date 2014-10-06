@@ -1,7 +1,11 @@
 #include "Overlay.h"
 #include "Utilities.h"
 
+#if defined(USE_SDL)
 Overlay::Overlay(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt) : PlaneObject(surf, cam, fmt), nOculusPoints(8), nGyroPoints(12)
+#else
+Overlay::Overlay(BufferObject * surf, Camera * cam, int bpp) : PlaneObject(surf, cam, bpp), nOculusPoints(8), nGyroPoints(12)
+#endif
 {
     nFireCount = 0;
     isFiring = false;
@@ -65,22 +69,42 @@ void Overlay::Update()
         p = &gyro[i];
         camera->TransformRotate(&p->tx, &p->ty, &p->x, &p->y, p->z);
     }
+#if defined(USE_SDL)
     Uint32 c1 = spacebash_s::GetCol(pixel_fmt, 14, 68, 150);
+#else
+	Uint32 c1 = spacebash_s::GetCol(14, 68, 150);
+#endif
     spacebash::line(surface, c1, gyro[0].tx, gyro[0].ty, gyro[0].z, gyro[1].tx, gyro[1].ty, gyro[1].z);
     spacebash::line(surface, c1, gyro[2].tx, gyro[2].ty, gyro[2].z, gyro[3].tx, gyro[3].ty, gyro[3].z);
 
+#if defined(USE_SDL)
     Uint32 c2 = spacebash_s::GetCol(pixel_fmt, 14, 153, 33);
     Uint32 c3 = spacebash_s::GetCol(pixel_fmt, 153, 41, 14);
+#else
+    Uint32 c2 = spacebash_s::GetCol(14, 153, 33);
+    Uint32 c3 = spacebash_s::GetCol(153, 41, 14);
+#endif
+
     spacebash::line(surface, c2, gyro[4].tx, gyro[4].ty, gyro[4].z, gyro[5].tx, gyro[5].ty, gyro[5].z);
     spacebash::line(surface, c3, gyro[6].tx, gyro[6].ty, gyro[6].z, gyro[7].tx, gyro[7].ty, gyro[7].z);
     spacebash::line(surface, c3, gyro[8].tx, gyro[8].ty, gyro[8].z, gyro[9].tx, gyro[9].ty, gyro[9].z);
     spacebash::line(surface, c3, gyro[10].tx, gyro[10].ty, gyro[10].z, gyro[11].tx, gyro[11].ty, gyro[11].z);
 
+#if defined(USE_SDL)
     Uint32 c4 = spacebash_s::GetCol(pixel_fmt, 250, 255, 0);
+#else
+	Uint32 c4 = spacebash_s::GetCol(250, 255, 0);
+#endif
+
     spacebash::line(surface, c4, oculus[0].tx, oculus[0].ty, oculus[0].z, oculus[1].tx, oculus[1].ty, oculus[1].z);
     spacebash::line(surface, c4, oculus[2].tx, oculus[2].ty, oculus[2].z, oculus[3].tx, oculus[3].ty, oculus[3].z);
 
+#if defined(USE_SDL)
     Uint32 c5 = spacebash_s::GetCol(pixel_fmt, 250, 255, 250);
+#else
+	Uint32 c5 = spacebash_s::GetCol(250, 255, 250);
+#endif
+
     spacebash::line(surface, c5, oculus[4].tx, oculus[4].ty, oculus[4].z, oculus[5].tx, oculus[5].ty, oculus[5].z);
     spacebash::line(surface, c5, oculus[5].tx, oculus[5].ty, oculus[5].z, oculus[6].tx, oculus[6].ty, oculus[6].z);
     spacebash::line(surface, c5, oculus[6].tx, oculus[6].ty, oculus[6].z, oculus[7].tx, oculus[7].ty, oculus[7].z);

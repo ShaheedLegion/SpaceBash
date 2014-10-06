@@ -16,7 +16,11 @@ protected:
     void RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c);
 
 public:
+#if defined(USE_SDL)
     ObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
+#else
+	ObjectField(BufferObject* surf, Camera* cam, int bpp);
+#endif
     ~ObjectField();
 
     void Update();

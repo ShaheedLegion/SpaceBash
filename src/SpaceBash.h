@@ -24,7 +24,7 @@ public:
     SDL_Thread * updateThread;
 #else
 	SpaceBashSurface* screen;
-	SpaceBash_Thread* updateThread;
+	SpaceBashThread* updateThread;
 #endif
 
     BufferObject * screen_buffer;

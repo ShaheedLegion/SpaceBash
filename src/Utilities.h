@@ -1,6 +1,8 @@
 #ifndef UTILITIES_H_INCLUDED
 #define UTILITIES_H_INCLUDED
+#if defined(USE_SDL)
 #include <SDL/SDL.h>
+#endif
 #include "BufferObject.h"
 #include <math.h>
 
@@ -17,7 +19,7 @@ Uint32 ashift = 24;
 
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
        on the endianness (byte order) of the machine */
-
+#if defined(USE_SDL)
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     rmask = 0xff000000;
     rshift = 24;
@@ -28,7 +30,7 @@ Uint32 ashift = 24;
     amask = 0x000000ff;
     ashift = 0;
 #endif
-
+#endif
     static float * sin_table;
     static float * cos_table;
 
@@ -65,11 +67,15 @@ Uint32 ashift = 24;
         Uint32 ccol;
         for(;;)
         {
+#if defined(USE_SDL)
             #if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
                 ccol = (Uint32)((Uint32)(c_c) << rshift)| ((Uint32)(c_c) << gshift)| ((Uint32)(c_c) << bshift)| ((Uint32)(100) << ashift);
             #else
                 ccol = (Uint32)((Uint32)(100) << ashift| (Uint32)(c_c) << bshift| (Uint32)(c_c) << gshift| (Uint32)(c_c) << rshift);
             #endif
+#else
+			ccol = (Uint32)((Uint32)(100) << ashift | (Uint32)(c_c) << bshift | (Uint32)(c_c) << gshift | (Uint32)(c_c) << rshift);
+#endif
             surf->Write(x0, y0, 0, ccol);
 
             if (x0 == x1 && y0 == y1) break;

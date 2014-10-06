@@ -19,7 +19,11 @@ protected:
     void SetPoint(spacebash_s::Point * pt, float x, float y);
 
 public:
+#if defined(USE_SDL)
     Overlay(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
+#else
+	Overlay(BufferObject* surf, Camera* cam, int bpp);
+#endif
     ~Overlay();
 
     void Update();

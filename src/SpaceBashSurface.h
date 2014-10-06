@@ -25,11 +25,19 @@ public:
 	}
 
 	Uint32* GetPixels() {
-		return reinterpret_cast<Uint32*>(m_pixels); 
+		return reinterpret_cast<Uint32*>(m_backBuffer); 
 	}
 
-	int GetBPP() {
+	int GetBPP() const {
 		return m_bpp;
+	}
+
+	int GetWidth() const {
+		return m_w;
+	}
+
+	int GetHeight() const {
+		return m_h;
 	}
 
 protected:

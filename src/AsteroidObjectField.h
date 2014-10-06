@@ -18,7 +18,11 @@ class AsteroidObjectField : public PlaneObject
     void RotateVertex(spacebash_s::Point * v, spacebash_s::Point * c);
 
 public:
+#if defined(USE_SDL)
     AsteroidObjectField(BufferObject * surf, Camera * cam, SDL_PixelFormat * fmt);
+#else
+	AsteroidObjectField(BufferObject* surf, Camera* cam, int bpp);
+#endif
     ~AsteroidObjectField();
 
     void Update();

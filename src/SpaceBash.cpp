@@ -102,7 +102,7 @@ SpaceBash::SpaceBash()
 #if defined(USE_SDL)
     updateThread = SDL_CreateThread(&Update, (void *)NULL);
 #else
-	updateThread = new SpaceBash_Thread(&Update);
+	updateThread = new SpaceBashThread(&Update);
 #endif
 }
 

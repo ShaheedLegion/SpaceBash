@@ -8,7 +8,11 @@
 typedef std::vector<PlaneObject*>::iterator pIter;
 SpaceBash * g_spaceBash;
 
+#if defined(USE_SDL)
 int Update(void * data)
+#else
+DWORD WINAPI Update(LPVOID lpParameter)
+#endif
 {   //poll for some kind of event here to signal that we want to exit.
     pIter i = g_spaceBash->planes.begin(), e = g_spaceBash->planes.end();
     while (g_spaceBash->IsRunning())
@@ -121,6 +125,17 @@ SpaceBash::~SpaceBash()
     delete lightingMask;
     spacebash::DestroyTables();
 }
+
+#if !defined(USE_SDL)
+void SpaceBash::SetBuffer(unsigned char * buffer, HDC scrDC, HDC memDC)
+{
+	if (screen) {
+		screen->SetScreen(buffer, scrDC, memDC);
+		if (updateThread)
+			updateThread->Start();
+	}
+}
+#endif
 
 bool SpaceBash::IsRunning()
 {

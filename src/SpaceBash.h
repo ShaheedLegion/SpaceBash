@@ -38,6 +38,10 @@ public:
 
     void CheckCollisions();
 
+#if !defined(USE_SDL)
+	void SetBuffer(unsigned char * buffer, HDC scrDC, HDC memDC);
+#endif
+
 public:
     SpaceBash();
     ~SpaceBash();

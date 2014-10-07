@@ -42,6 +42,7 @@ int main( int argc, char * args[] )
 
 namespace _main {
 SpaceBash *g_spaceBash = nullptr;
+unsigned char * bits = nullptr;
 }
 
 long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp,
@@ -76,6 +77,7 @@ long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp,
 
 int main(int argc, char *args[]) {
   HDC windowDC;
+
   SpaceBash spaceBash;
   _main::g_spaceBash = &spaceBash;
 
@@ -91,6 +93,45 @@ int main(int argc, char *args[]) {
     HWND window = CreateWindowEx(0, myclass, L"SpaceBash", WS_POPUPWINDOW, 0, 0,
                                  640, 480, 0, 0, GetModuleHandle(0), 0);
     if (window) {
+
+		windowDC = GetWindowDC(window);
+		HDC hImgDC = CreateCompatibleDC(windowDC);
+		if (hImgDC == NULL)
+			MessageBox(NULL, L"Dc is NULL", L"ERROR!", MB_OK);
+
+		BITMAPINFO bf;
+		SetBkMode(hImgDC, TRANSPARENT);
+		SetTextColor(hImgDC, RGB(47, 67, 47));
+		SetStretchBltMode(hImgDC, COLORONCOLOR);
+		bf.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bf.bmiHeader.biWidth = 640;
+		bf.bmiHeader.biHeight = 480;
+		bf.bmiHeader.biPlanes = 1;
+		bf.bmiHeader.biBitCount = 32;
+		bf.bmiHeader.biCompression = BI_RGB;
+		bf.bmiHeader.biSizeImage = (640 * 480 * (32 / 8));
+		bf.bmiHeader.biXPelsPerMeter = -1;
+		bf.bmiHeader.biYPelsPerMeter = -1;
+		bf.bmiHeader.biClrUsed = 0;
+		bf.bmiHeader.biClrImportant = 0;
+		bf.bmiColors[0].rgbBlue = 0;
+		bf.bmiColors[0].rgbGreen = 0;
+		bf.bmiColors[0].rgbRed = 0;
+		bf.bmiColors[0].rgbReserved = 0;
+
+		HBITMAP hImg = CreateDIBSection(hImgDC, &bf, DIB_RGB_COLORS, (void **)&_main::bits, NULL, 0);
+		if (hImg == NULL)
+			MessageBox(NULL, L"Image is NULL", L"ERROR!", MB_OK);
+		else if (hImg == INVALID_HANDLE_VALUE)
+			MessageBox(NULL, L"Image is invalid", L"Error!", MB_OK);
+
+		unsigned char * bits_copy = _main::bits;
+		DWORD err = GetLastError();
+
+		SelectObject(hImgDC, hImg);
+
+		spaceBash.SetBuffer(_main::bits, windowDC, hImgDC);
+
       ShowWindow(window, SW_SHOWDEFAULT);
       MSG msg;
       while (GetMessage(&msg, 0, 0, 0))

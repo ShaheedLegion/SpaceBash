@@ -58,6 +58,12 @@ long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp,
       if (_main::g_spaceBash)
         _main::g_spaceBash->SetRunning(false);
       PostQuitMessage(0);
+    } else if (wp == VK_LEFT) {
+    if (_main::g_spaceBash)
+        _main::g_spaceBash->SetDirection(1);
+    } else if (wp == VK_RIGHT) {
+    if (_main::g_spaceBash)
+        _main::g_spaceBash->SetDirection(-1);
     }
     return 0L;
   case WM_MOUSEMOVE:
@@ -66,6 +72,8 @@ long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp,
     }
     return 0L;
   case WM_LBUTTONDOWN:
+      if (_main::g_spaceBash)
+        _main::g_spaceBash->Fire(LOWORD(lp), HIWORD(lp));
   //	std::cout << "\nmouse left button down at (" << LOWORD(lp)
   //		<< ',' << HIWORD(lp) << ")\n";
   // fall thru

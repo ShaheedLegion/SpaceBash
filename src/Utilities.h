@@ -6,6 +6,7 @@
 #endif
 #include "BufferObject.h"
 #include <math.h>
+#include <stdlib.h>
 
 namespace spacebash
 {

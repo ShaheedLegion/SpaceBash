@@ -15,7 +15,7 @@ public:
     m_particles = new unsigned char[m_size];
 
     // Evenly distribute the particles across the field.
-    memset(m_particles, std::min(255, m_d), m_size * sizeof(unsigned char));
+    memset(m_particles, std::min(128, m_d), m_size * sizeof(unsigned char));
 
     m_perturbationSize = (m_w / 20) * (m_h / 20);
     m_perturbation = new Perturbation[m_perturbationSize];
@@ -51,12 +51,12 @@ public:
 
     char intensity = static_cast<char>((static_cast<float>(
         static_cast<float>(numParticlesAtIdx) /
-        static_cast<float>(m_d))) * 128);
+        static_cast<float>(m_d))) * 64);
 
-    color->r = std::max(255, color->r + intensity);
-    color->g = std::max(255, color->g + intensity);
-    color->b = std::max(255, color->b + intensity);
-    color->a = std::max(255, color->a + intensity);
+    color->r = std::min(255, color->r + intensity);
+    color->g = std::min(255, color->g + intensity);
+    color->b = std::min(255, color->b + intensity);
+    color->a = std::min(255, color->a + intensity);
   }
 
   void ProcessFog() {

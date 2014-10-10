@@ -60,8 +60,8 @@ public:
         float ty = *y + f_my;
         float nx = tx * ct - ty * st;   //then rotate
         float ny = ty * ct + tx * st;
-        *cx = ((nx / z) * w) + wcx;
-        *cy = ((ny / z) * h) + wcy;
+        *cx = static_cast<int>(((nx / z) * w) + static_cast<float>(wcx));
+        *cy = static_cast<int>(((ny / z) * h) + static_cast<float>(wcy));
     }
     void TransformRotate(int * cx, int * cy, float * x, float * y, float z)
     {
@@ -69,8 +69,8 @@ public:
         float ty = *y;
         float nx = tx * ct - ty * st;   //then rotate
         float ny = ty * ct + tx * st;
-        *cx = ((nx / z) * w) + wcx;
-        *cy = ((ny / z) * h) + wcy;
+        *cx = static_cast<int>(((nx / z) * w) + static_cast<float>(wcx));
+        *cy = static_cast<int>(((ny / z) * h) + static_cast<float>(wcy));
     }
     void Project(int * cx, int * cy, float * x, float * y, float z)
     {
@@ -78,8 +78,8 @@ public:
         float ty = *y;
         //float nx = tx * ct - ty * st;   //then rotate
         //float ny = ty * ct + tx * st;
-        *cx = ((tx / z) * w) + wcx;
-        *cy = ((ty / z) * h) + wcy;
+        *cx = static_cast<int>(((tx / z) * w) + static_cast<float>(wcx));
+        *cy = static_cast<int>(((ty / z) * h) + static_cast<float>(wcy));
     }
     void SetRotation(int delta)
     {

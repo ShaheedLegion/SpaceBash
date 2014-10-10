@@ -15,6 +15,7 @@
 #include "PlaneObject.h"
 #include "Overlay.h"
 #include "AsteroidObjectField.h"
+#include "SpaceBashFog.h"
 #include <vector>
 
 class SpaceBash
@@ -33,6 +34,7 @@ public:
     Overlay * overlay;
     AsteroidObjectField * field;
     Camera * camera;
+	SpaceBashFog* fog;
     std::vector<PlaneObject *> planes;
     bool bRunning;
 

@@ -19,7 +19,7 @@ DWORD WINAPI Update(LPVOID lpParameter)
     g_spaceBash->screen_buffer->Clear();
     g_spaceBash->CheckCollisions(); // check collisions first - then we can
                                     // immediately render the exlosion.
-    g_spaceBash->fog->ProcessFog();
+    //g_spaceBash->fog->ProcessFog();
     g_spaceBash->camera->StartBatch();
     for (i = g_spaceBash->planes.begin(); i != e; ++i)
       (*i)->Update();
@@ -39,7 +39,7 @@ DWORD WINAPI Update(LPVOID lpParameter)
     Uint32 *pixels = (Uint32 *)g_spaceBash->screen->GetPixels();
     while (--len > 0) {
       spacebash_s::Color result(*(Uint32 *)(bp) & *(Uint32 *)(lp));
-      g_spaceBash->fog->UpdatePixel(&result, index);
+      //g_spaceBash->fog->UpdatePixel(&result, index);
       *((Uint32 *)pixels) = *(Uint32 *)(&result);
       bp++;
       lp++;

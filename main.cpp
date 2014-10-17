@@ -88,6 +88,17 @@ long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp,
   }
 }
 
+BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor,
+                              LPRECT lprcMonitor, LPARAM dwData) {
+	if (!dwData || !lprcMonitor)
+		return TRUE;
+
+	std::vector<RECT>* monitors = reinterpret_cast<std::vector<RECT>*>(dwData);
+	monitors->push_back(*lprcMonitor);
+
+	return TRUE;
+}
+
 int main(int argc, char *args[]) {
   HDC windowDC;
 
@@ -103,8 +114,20 @@ int main(int argc, char *args[]) {
       HBRUSH(COLOR_WINDOW + 1),     0,
       myclass,                      LoadIcon(0, IDI_APPLICATION)};
   if (RegisterClassEx(&wndclass)) {
-    HWND window = CreateWindowEx(0, myclass, L"SpaceBash", WS_POPUPWINDOW, 0, 0,
-                                 640, 480, 0, 0, GetModuleHandle(0), 0);
+    // Get info on which monitor we want to use.
+    std::vector<RECT> monitors;
+    EnumDisplayMonitors(NULL, NULL, MonitorEnumProc,
+                        reinterpret_cast<DWORD>(&monitors));
+
+	RECT displayRC = { 0, 0, 0, 0 };
+	std::vector<RECT>::iterator i = monitors.begin();
+	for (; i != monitors.end(); ++i) {
+		if (i->left > displayRC.left)
+			displayRC = *i;
+	}
+        HWND window = CreateWindowEx(0, myclass, L"SpaceBash", WS_POPUPWINDOW,
+                                     displayRC.left, displayRC.top, 640, 480, 0,
+                                     0, GetModuleHandle(0), 0);
     if (window) {
 
       windowDC = GetWindowDC(window);

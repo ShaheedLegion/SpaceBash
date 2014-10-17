@@ -23,8 +23,8 @@ public:
     Perturbation *pert = m_perturbation;
     for (int y = 0; y < (m_h); y += 20) {
       for (int x = 0; x < m_w; x += 20) {
-        pert->x = x;
-        pert->y = y;
+        pert->x = (rand() % m_w);
+        pert->y = (rand() % m_h);
         pert->r = (rand() % 360);
         pert->dx = (rand() % 4);
         pert->dy = (rand() % 3);

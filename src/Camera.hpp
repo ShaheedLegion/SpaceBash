@@ -2,6 +2,35 @@
 #define CAMERA_HPP_INCLUDED
 #include "Utilities.h"
 
+/*
+Need to rewrite camera class to use matrices and a "world projection" approach,
+where we can position the camera in different places in our simulated world.
+This will give us a true 6-degrees of freedome camera, which gives the correct
+results when we try to rotate things ... I want a fixed world, which we can fly
+around using the camera.
+If we use the current approach there everything is moving on it's own, then we
+end up with a simulated 3d shooter. If we use a real camera class, we can get
+much closer to the space flight sim we want to write.
+There are some useful links regarding the type of camera class I need to use:
+
+order of operations:
+glRotate(-z);
+glRotate(-y);
+glRotate(-x);
+glTranslate(-camX, -camY, -camZ);
+
+http://stackoverflow.com/questions/11994819/how-can-i-move-the-camera-correctly-in-3d-space
+
+http://www.az.cs.is.nagoya-u.ac.jp/class/comp-sys/programs/trackball.c
+
+http://www.cplusplus.com/forum/lounge/116436/
+
+http://gamedev.stackexchange.com/questions/19507/how-should-i-implement-a-first-person-camera
+
+http://www.newgrounds.com/bbs/topic/448031
+
+http://stackoverflow.com/questions/19679703/projecting-a-2d-point-into-3d-space-using-camera-calibration-parameters-in-openc
+*/
 class Camera
 {
 protected:

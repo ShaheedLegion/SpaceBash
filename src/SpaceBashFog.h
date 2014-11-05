@@ -38,7 +38,7 @@ void GenerateWhiteNoise(int width, int height, int offset)
     int len = width * height;
     m_noiseMap = new float[len];
 
-    srand(2635 + offset);    //deterministic
+    srand(2635 + offset);
     for (int i = 0; i < len; ++i)
     {
         m_noiseMap[i] = (static_cast<float>(rand()) / RAND_MAX) + 1.0f;

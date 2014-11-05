@@ -20,7 +20,9 @@ DWORD WINAPI Update(LPVOID lpParameter)
     g_spaceBash->CheckCollisions(); // check collisions first - then we can
                                     // immediately render the exlosion.
     //g_spaceBash->fog->ProcessFog();
+
     g_spaceBash->fog->NextFrame();  //advance the frame counter.
+
     g_spaceBash->camera->StartBatch();
     for (i = g_spaceBash->planes.begin(); i != e; ++i)
       (*i)->Update();

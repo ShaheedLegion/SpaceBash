@@ -44,11 +44,8 @@ public:
         float nx = percx * 35.0f;
         float ny = percy * 35.0f;
 
-        f_mx = (nx * ct - ny * st);   //then rotate
+        f_mx = (nx * ct + ny * st);   //then rotate
         f_my = (ny * ct + nx * st);
-
-        //f_mx = nx;
-        //f_my = ny;
     }
     void StartBatch()
     {
@@ -57,7 +54,7 @@ public:
     void Transform(int * cx, int * cy, float * x, float * y, float z)
     {
         float tx = *x + f_mx;   //first translate
-        float ty = *y + f_my;
+        float ty = *y - f_my;
         float nx = tx * ct - ty * st;   //then rotate
         float ny = ty * ct + tx * st;
         *cx = static_cast<int>(((nx / z) * w) + static_cast<float>(wcx));

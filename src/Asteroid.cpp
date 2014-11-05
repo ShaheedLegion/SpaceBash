@@ -77,3 +77,4 @@ void Asteroid::Render(Camera * cam, BufferObject * surf)
         ++p;
     }
 }
+

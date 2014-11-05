@@ -19,7 +19,8 @@ DWORD WINAPI Update(LPVOID lpParameter)
     g_spaceBash->screen_buffer->Clear();
     g_spaceBash->CheckCollisions(); // check collisions first - then we can
                                     // immediately render the exlosion.
-    g_spaceBash->fog->ProcessFog();
+    //g_spaceBash->fog->ProcessFog();
+    g_spaceBash->fog->NextFrame();  //advance the frame counter.
     g_spaceBash->camera->StartBatch();
     for (i = g_spaceBash->planes.begin(); i != e; ++i)
       (*i)->Update();
@@ -54,7 +55,7 @@ DWORD WINAPI Update(LPVOID lpParameter)
     SDL_Delay(30); // Pause
 #else
     g_spaceBash->screen->Flip();
-    g_spaceBash->updateThread->Delay(15);
+    g_spaceBash->updateThread->Delay(1);
 #endif
   }
 
@@ -80,7 +81,7 @@ SpaceBash::SpaceBash() {
   camera = new Camera(width, height);
 
   // Hard code the depth for now.
-  fog = new SpaceBashFog(width, height, 100);
+  fog = new SpaceBashFog(width, height, 25);
 
   lightingMask = new BufferObject(width, height);
   if (lightingMask) { // create the mask we apply to create lighting effect

@@ -5,40 +5,116 @@
 
 #include <cstring>
 #include <algorithm>
+#include <vector>
 
 #include "Structures.h"
 
 class SpaceBashFog {
 public:
   SpaceBashFog(int w, int h, int depth)
-      : m_w(w), m_h(h), m_d(depth), m_size(w * h) {
-    m_particles = new unsigned char[m_size];
+      : m_w(w), m_h(h), m_noiseDepth(depth), m_size(w * h), m_currentFrame(0), m_frameDelta(0) {
+    m_perturbation = new float[m_size];
 
-    // Evenly distribute the particles across the field.
-    memset(m_particles, std::min(128, m_d), m_size * sizeof(unsigned char));
-
-    m_perturbationSize = (m_w / 20) * (m_h / 20);
-    m_perturbation = new Perturbation[m_perturbationSize];
-
-    Perturbation *pert = m_perturbation;
-    for (int y = 0; y < (m_h); y += 20) {
-      for (int x = 0; x < m_w; x += 20) {
-        pert->x = x;
-        pert->y = y;
-        pert->r = (rand() % 360);
-        pert->dx = (rand() % 4);
-        pert->dy = (rand() % 3);
-        pert++;
-      }
+    for (int i = 0; i < m_noiseDepth; ++i){
+        GenerateWhiteNoise(m_w, m_h, i);
+        float * buffer = new float[m_size];
+        GeneratePerlinNoise(buffer, m_noiseMap, m_perturbation, m_w, m_h);
+        m_perlinNoise.push_back(buffer);
     }
   }
 
   ~SpaceBashFog() {
-    delete[] m_particles;
     delete[] m_perturbation;
-    m_particles = 0;
+    delete[] m_noiseMap;
+    for (int i = 0; i < m_noiseDepth; ++i)
+        delete[] m_perlinNoise[i];
+
     m_perturbation = 0;
+    m_noiseMap = 0;
   }
+
+void GenerateWhiteNoise(int width, int height, int offset)
+{
+    int len = width * height;
+    m_noiseMap = new float[len];
+
+    srand(2635 + offset);    //deterministic
+    for (int i = 0; i < len; ++i)
+    {
+        m_noiseMap[i] = (static_cast<float>(rand()) / RAND_MAX) + 1.0f;
+    }
+}
+
+float Interpolate(float x0, float x1, float alpha)
+{
+    return x0 * (1 - alpha) + alpha * x1;
+}
+
+void GenerateSmoothNoise(float* baseNoise, float * smoothNoise, int w, int h, int octave)
+{
+    int len = w * h;
+    int samplePeriod = 1 << octave; // calculates 2 ^ k
+    float sampleFrequency = 1.0f / static_cast<float>(samplePeriod);
+
+    float * outp = smoothNoise;
+
+    for (int i = 0; i < w; i++)
+    {
+        //calculate the horizontal sampling indices
+        int sample_i0 = (i / samplePeriod) * samplePeriod;
+        int sample_i1 = (sample_i0 + samplePeriod) % w; //wrap around
+        float horizontal_blend = (i - sample_i0) * sampleFrequency;
+
+        for (int j = 0; j < h; j++)
+        {
+            //calculate the vertical sampling indices
+            int sample_j0 = (j / samplePeriod) * samplePeriod;
+            int sample_j1 = (sample_j0 + samplePeriod) % h; //wrap around
+            float vertical_blend = (j - sample_j0) * sampleFrequency;
+
+            //blend the top two corners
+            float top = Interpolate(baseNoise[sample_i0 + (sample_j0 * w)],
+                baseNoise[sample_i1 + (sample_j0 * w)], horizontal_blend);
+
+            //blend the bottom two corners
+            float bottom = Interpolate(baseNoise[sample_i0 + (sample_j1 * w)],
+                baseNoise[sample_i1 + (sample_j1 * w)], horizontal_blend);
+
+            //final blend
+            *outp = Interpolate(top, bottom, vertical_blend);
+            outp++;
+        }
+        outp++;
+    }
+}
+
+void GeneratePerlinNoise(float * perlinNoise, float * baseNoise, float * tempNoise, int w, int h)
+{
+    int octaves = 8;    //play with this value a little...
+    int len = w * h;
+    float persistence = 0.7f;
+    float amplitude = 1.0f;
+    float totalAmplitude = 0.0f;
+
+    for (int i = 0; i < octaves; ++i) {
+        GenerateSmoothNoise(baseNoise, tempNoise, m_w, m_h, i);
+
+        //blend noise together
+        amplitude *= persistence;
+        totalAmplitude += amplitude;
+
+        for (int j = 0; j < len; ++j)
+        {
+           perlinNoise[j] += (tempNoise[j] * amplitude);
+        }
+    }
+
+    //normalisation
+    for (int i = 0; i < len; ++i)
+    {
+       perlinNoise[i] /= totalAmplitude;
+    }
+}
 
   void UpdatePixel(spacebash_s::tagColor *color, int idx) {
     // Update the pixel based on the intensity at that position in our buffer.
@@ -47,61 +123,38 @@ public:
     if (idx > m_size)
       return;
 
-    unsigned char numParticlesAtIdx = m_particles[idx];
+    float * currentFrame(m_perlinNoise[m_currentFrame]);
+    // Get a number between 0 and 64
+    float whiteIntensity = (currentFrame[idx] * 64.0);
 
-    char intensity = static_cast<char>((static_cast<float>(
-        static_cast<float>(numParticlesAtIdx) /
-        static_cast<float>(m_d))) * 64);
-
-    color->r = std::min(255, color->r + intensity);
-    color->g = std::min(255, color->g + intensity);
-    color->b = std::min(255, color->b + intensity);
-    color->a = std::min(255, color->a + intensity);
+    color->r = std::min(255, (color->r >> 1) + static_cast<char>(whiteIntensity));
+    color->g = std::min(255, (color->g >> 1) + static_cast<char>(whiteIntensity));
+    color->b = std::min(255, (color->b >> 1) + static_cast<char>(whiteIntensity));
+    color->a = std::min(255, (color->a >> 1) + static_cast<char>(whiteIntensity));
   }
 
-  void ProcessFog() {
-    // Handle the "movement" and "interactions" in the fog buffer.
-    // This algorithm takes advantage of unsigned value overflow.
-    int cdx = 0, cdy = 0;
-    int index = 0;
-    int idx = m_perturbationSize;
-    Perturbation *pert = m_perturbation;
-    while (idx-- > 0) {
-      // Deal with applying the "fog kernel" to our buffer at the correct
-      // position.
-      index = (pert->y * m_w) + pert->x;
-      cdx = pert->x + pert->dx;
-      cdy = pert->y + pert->dy;
-
-      // remove a particle at the current position.
-      m_particles[index]--;
-
-      index = (cdy * m_w) + cdx;
-
-      // add the particle to the new position.
-      m_particles[index]++;
-      pert++;
-    }
-  }
+void NextFrame() {
+    m_frameDelta++;
+    if (m_frameDelta > 4) {
+        m_frameDelta = 0;
+        m_currentFrame++;
+        if (m_currentFrame > m_perlinNoise.size() - 1)
+            m_currentFrame = 0;
+        }
+}
 
 protected:
-  unsigned char *m_particles;
 
-  struct Perturbation {
-    unsigned short x;  //  current x position
-    unsigned short y;  //  current y position
-    unsigned short r;  //  current angle of rotation
-    unsigned short dx; //  current speed delta x
-    unsigned short dy; //  current speed delta y
-  };
-
-  Perturbation *m_perturbation;
-  int m_perturbationSize;
+  float *m_perturbation;
+  float *m_noiseMap;
+  std::vector<float*> m_perlinNoise;
 
   int m_w;
   int m_h;
-  int m_d;
+  int m_noiseDepth;
   int m_size;
+  int m_currentFrame;
+  int m_frameDelta;
 };
 
 #endif // SPACE_BASH_FOG

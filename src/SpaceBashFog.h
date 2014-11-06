@@ -12,13 +12,19 @@
 class SpaceBashFog {
 public:
   SpaceBashFog(int w, int h, int depth)
-      : m_w(w), m_h(h), m_noiseDepth(depth), m_size(w * h), m_currentFrame(0), m_frameDelta(0) {
+      : m_w(w), m_h(h), m_noiseDepth(depth), m_size(w * h), m_currentFrame(0), m_nextFrame(0), m_frameDelta(0) {
     m_perturbation = new float[m_size];
+	m_noiseMap = new float[m_size];
+
+	memset(m_perturbation, 0, m_size * sizeof(float));
+	
 
     for (int i = 0; i < m_noiseDepth; ++i){
-        GenerateWhiteNoise(m_w, m_h, i);
         float * buffer = new float[m_size];
-        GeneratePerlinNoise(buffer, m_noiseMap, m_perturbation, m_w, m_h);
+		memset(buffer, 0, m_size * sizeof(float));
+		
+		GenerateWhiteNoise(m_noiseMap, m_w, m_h, i);
+        GeneratePerlinNoise(buffer, m_noiseMap, m_perturbation, m_w, m_h, i / 10);
         m_perlinNoise.push_back(buffer);
     }
   }
@@ -33,15 +39,13 @@ public:
     m_noiseMap = 0;
   }
 
-void GenerateWhiteNoise(int width, int height, int offset)
+void GenerateWhiteNoise(float* baseNoise, int width, int height, int offset)
 {
     int len = width * height;
-    m_noiseMap = new float[len];
-
     srand(2635 + offset);
     for (int i = 0; i < len; ++i)
     {
-        m_noiseMap[i] = (static_cast<float>(rand()) / RAND_MAX) + 1.0f;
+        baseNoise[i] = (static_cast<float>(rand()) / RAND_MAX) + 1.0f;
     }
 }
 
@@ -84,11 +88,11 @@ void GenerateSmoothNoise(float* baseNoise, float * smoothNoise, int w, int h, in
             *outp = Interpolate(top, bottom, vertical_blend);
             outp++;
         }
-        outp++;
+        //outp++;
     }
 }
 
-void GeneratePerlinNoise(float * perlinNoise, float * baseNoise, float * tempNoise, int w, int h)
+void GeneratePerlinNoise(float * perlinNoise, float * baseNoise, float * tempNoise, int w, int h, int octaveOffset)
 {
     int octaves = 8;    //play with this value a little...
     int len = w * h;
@@ -112,7 +116,8 @@ void GeneratePerlinNoise(float * perlinNoise, float * baseNoise, float * tempNoi
     //normalisation
     for (int i = 0; i < len; ++i)
     {
-       perlinNoise[i] /= totalAmplitude;
+		float noise = perlinNoise[i] / totalAmplitude;
+		perlinNoise[i] = noise - 1.0f;
     }
 }
 
@@ -123,9 +128,14 @@ void GeneratePerlinNoise(float * perlinNoise, float * baseNoise, float * tempNoi
     if (idx > m_size)
       return;
 
-    float * currentFrame(m_perlinNoise[m_currentFrame]);
-    // Get a number between 0 and 64
-    float whiteIntensity = (currentFrame[idx] * 64.0);
+    float currentFrame(m_perlinNoise[m_currentFrame][idx]);
+	
+	float nextFrame(m_perlinNoise[m_nextFrame][idx]);
+
+	//float pixelDiff = ((1.0f / 0.05f) * (nextFrame - currentFrame)) + m_frameDelta;
+
+    // Get a number between 0 and 128
+    float whiteIntensity = (((1-m_frameDelta)*currentFrame + m_frameDelta*nextFrame) * 128.0f);
 
     color->r = std::min(255, (color->r >> 1) + static_cast<char>(whiteIntensity));
     color->g = std::min(255, (color->g >> 1) + static_cast<char>(whiteIntensity));
@@ -134,12 +144,14 @@ void GeneratePerlinNoise(float * perlinNoise, float * baseNoise, float * tempNoi
   }
 
 void NextFrame() {
-    m_frameDelta++;
-    if (m_frameDelta > 4) {
+    m_frameDelta += 0.05f;
+    if (m_frameDelta > 0.95f) {
         m_frameDelta = 0;
         m_currentFrame++;
         if (m_currentFrame > m_perlinNoise.size() - 1)
             m_currentFrame = 0;
+
+		m_nextFrame = (m_currentFrame + 1 > m_noiseDepth-1) ? 0 : m_currentFrame + 1;
         }
 }
 
@@ -154,7 +166,9 @@ protected:
   int m_noiseDepth;
   int m_size;
   int m_currentFrame;
-  int m_frameDelta;
+  int m_nextFrame;
+  float m_frameDelta;
+
 };
 
 #endif // SPACE_BASH_FOG

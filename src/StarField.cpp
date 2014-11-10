@@ -40,6 +40,8 @@ void StarField::Update()
 #else
 	Uint32 col = spacebash_s::GetCol(99, 99, 99);
 #endif
+	int w(camera->GetWidth());
+	int h(camera->GetHeight());
     for (int i = 0; i < nstars; ++i)
     {
         star = &stars[i];
@@ -53,9 +55,9 @@ void StarField::Update()
 
         if (star->z < 4)
             bPushBack = true;
-        if (tempx < 0 || tempx > camera->GetWidth())
+        if (tempx < 0 || tempx > w)
             bSkip = true;
-        if (tempy < 0 || tempy > camera->GetHeight())
+        if (tempy < 0 || tempy > h)
             bSkip = true;
 
 		if (bPushBack)
